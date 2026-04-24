@@ -56,10 +56,13 @@ async function construirSerieAnio(anio){
   const data = await getAnio(anio);
   const ipc = state.comparativa.ipc_acumulado_a_2026[String(anio)];
   const puntos = [];
-  for(let bReal = 15000; bReal <= 100000; bReal += 1000){
+  // Densidad fina hasta 100k (zona del 95% asalariados), espaciada hasta 1M
+  const xs = [];
+  for(let b = 15000; b <= 100000; b += 2500) xs.push(b);
+  for(let b = 110000; b <= 1000000; b += 10000) xs.push(b);
+  for(const bReal of xs){
     const brutoNominal = bReal / ipc;
     const reg = consultarBruto(data, brutoNominal);
-    // tipo efectivo IRPF = irpf / bruto * 100 (es invariante al ajuste IPC)
     puntos.push([bReal, reg.tipo_efectivo_irpf_pct]);
   }
   return puntos;
@@ -72,8 +75,8 @@ async function pintarGraficoTEF(){
   const innerW = W - margin.left - margin.right;
   const innerH = H - margin.top - margin.bottom;
 
-  const xMin = 15000, xMax = 100000;
-  const yMin = 0, yMax = 36;
+  const xMin = 15000, xMax = 1000000;
+  const yMin = 0, yMax = 50;
 
   const x = v => margin.left + (v - xMin) / (xMax - xMin) * innerW;
   const y = v => margin.top + (1 - (v - yMin) / (yMax - yMin)) * innerH;
@@ -101,17 +104,19 @@ async function pintarGraficoTEF(){
   svgHTML += `<text class="title" x="${margin.left}" y="22">Tipo efectivo del IRPF entre 2012 y 2026 por salario bruto ajustado a la inflación</text>`;
 
   // Grid Y
-  for(let v = 0; v <= yMax; v += 2){
+  for(let v = 0; v <= yMax; v += 5){
     const yp = y(v);
     svgHTML += `<line class="grid" x1="${margin.left}" x2="${margin.left+innerW}" y1="${yp}" y2="${yp}"/>`;
     svgHTML += `<text class="axis-label" x="${margin.left-8}" y="${yp+4}" text-anchor="end">${v}%</text>`;
   }
 
-  // Grid X (cada 5k)
-  for(let v = xMin; v <= xMax; v += 5000){
+  // Grid X: ticks elegidos manualmente para no saturar
+  const xTicks = [15000, 50000, 100000, 200000, 300000, 500000, 750000, 1000000];
+  for(const v of xTicks){
     const xp = x(v);
     svgHTML += `<line class="grid" x1="${xp}" x2="${xp}" y1="${margin.top}" y2="${margin.top+innerH}"/>`;
-    svgHTML += `<text class="axis-label" x="${xp}" y="${margin.top+innerH+18}" text-anchor="middle" transform="rotate(-45 ${xp} ${margin.top+innerH+18})">${v.toLocaleString("es-ES")} EUR</text>`;
+    const label = v >= 1000000 ? "1 M €" : (v >= 1000 ? `${v/1000} k €` : `${v} €`);
+    svgHTML += `<text class="axis-label" x="${xp}" y="${margin.top+innerH+18}" text-anchor="middle">${label}</text>`;
   }
 
   // Ejes
