@@ -28,7 +28,7 @@ os.makedirs(DATA_DIR, exist_ok=True)
 ANIOS = list(range(2012, 2027))
 STEP = 500  # paso de 500 EUR (rango 0-1M -> JSON manejable, web interpola)
 MIN_BRUTO = 0
-MAX_BRUTO = 1000000
+MAX_BRUTO = 2000000  # tabla hasta 2M para que la "subida ideal con IPC" sobre 1M no quede clampada
 
 
 def serializar_parametros():
@@ -79,8 +79,8 @@ def serializar_anio(anio: int):
 
 
 def serializar_comparativa():
-    # Rango 15k-100k cada 1000, luego 100k-1M cada 5000 (para visualizar rentas altas sin disparar el JSON)
-    salarios_2026 = list(range(15000, 100001, 1000)) + list(range(105000, 1000001, 5000))
+    # Rango 15k-100k cada 1000, luego 100k-2M cada 5000 (cubrimos hasta 2M para que la "subida ideal con IPC" sobre 1M no quede clampada)
+    salarios_2026 = list(range(15000, 100001, 1000)) + list(range(105000, 2000001, 5000))
     p_2026 = obtener_parametros(2026)
     ref = {b: calcular_nomina_agregada(float(b), p_2026)['neto'] for b in salarios_2026}
 
