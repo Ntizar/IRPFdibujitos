@@ -1,0 +1,15 @@
+Creative Commons CC0 1.0 Universal
+
+El contenido divulgativo, los datos, los parametros normativos transcritos y
+las salidas precalculadas (JSON, Excel, manual, textos) que acompañan a este
+proyecto se publican bajo CC0 1.0. Esto significa que renunciamos al maximo
+permitido por la ley a cualquier derecho de autor sobre ese contenido.
+
+Puedes copiar, modificar, distribuir y usar todo el contenido, incluso para
+fines comerciales, sin pedir permiso y sin necesidad de atribucion.
+
+Texto completo de la licencia: https://creativecommons.org/publicdomain/zero/1.0/legalcode
+
+Aviso: el codigo fuente Python y JavaScript se distribuye bajo licencia MIT
+(ver fichero LICENSE), no bajo CC0, para mantener compatibilidad estandar de
+software. El espiritu sigue siendo el mismo: maxima apertura.

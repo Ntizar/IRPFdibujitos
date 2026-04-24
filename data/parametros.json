@@ -1,0 +1,650 @@
+{
+  "2012": {
+    "base_max": 39150.0,
+    "ss_empresa_pct": 31.4,
+    "ss_trabajador_pct": 6.35,
+    "mei_empresa_pct": 0.0,
+    "mei_trabajador_pct": 0.0,
+    "gastos_fijos": 0,
+    "minimo_personal_irpf": 5151,
+    "minimo_exento_retencion": 11162,
+    "tramos_irpf": [
+      {
+        "hasta": 17707,
+        "tipo_pct": 24.75
+      },
+      {
+        "hasta": 33007,
+        "tipo_pct": 30.0
+      },
+      {
+        "hasta": 53407,
+        "tipo_pct": 40.0
+      },
+      {
+        "hasta": 120000,
+        "tipo_pct": 47.0
+      },
+      {
+        "hasta": 175000,
+        "tipo_pct": 49.0
+      },
+      {
+        "hasta": 300000,
+        "tipo_pct": 51.0
+      },
+      {
+        "hasta": null,
+        "tipo_pct": 52.0
+      }
+    ],
+    "art20": {
+      "U_Inf": 9180,
+      "R_Max": 4080,
+      "U_Sup": 13260,
+      "R_Min": 2652
+    },
+    "tiene_solidaridad": false,
+    "tiene_deduccion_smi": false
+  },
+  "2013": {
+    "base_max": 41108.4,
+    "ss_empresa_pct": 31.4,
+    "ss_trabajador_pct": 6.35,
+    "mei_empresa_pct": 0.0,
+    "mei_trabajador_pct": 0.0,
+    "gastos_fijos": 0,
+    "minimo_personal_irpf": 5151,
+    "minimo_exento_retencion": 11162,
+    "tramos_irpf": [
+      {
+        "hasta": 17707,
+        "tipo_pct": 24.75
+      },
+      {
+        "hasta": 33007,
+        "tipo_pct": 30.0
+      },
+      {
+        "hasta": 53407,
+        "tipo_pct": 40.0
+      },
+      {
+        "hasta": 120000,
+        "tipo_pct": 47.0
+      },
+      {
+        "hasta": 175000,
+        "tipo_pct": 49.0
+      },
+      {
+        "hasta": 300000,
+        "tipo_pct": 51.0
+      },
+      {
+        "hasta": null,
+        "tipo_pct": 52.0
+      }
+    ],
+    "art20": {
+      "U_Inf": 9180,
+      "R_Max": 4080,
+      "U_Sup": 13260,
+      "R_Min": 2652
+    },
+    "tiene_solidaridad": false,
+    "tiene_deduccion_smi": false
+  },
+  "2014": {
+    "base_max": 43164.0,
+    "ss_empresa_pct": 31.4,
+    "ss_trabajador_pct": 6.35,
+    "mei_empresa_pct": 0.0,
+    "mei_trabajador_pct": 0.0,
+    "gastos_fijos": 0,
+    "minimo_personal_irpf": 5151,
+    "minimo_exento_retencion": 11162,
+    "tramos_irpf": [
+      {
+        "hasta": 17707,
+        "tipo_pct": 24.75
+      },
+      {
+        "hasta": 33007,
+        "tipo_pct": 30.0
+      },
+      {
+        "hasta": 53407,
+        "tipo_pct": 40.0
+      },
+      {
+        "hasta": 120000,
+        "tipo_pct": 47.0
+      },
+      {
+        "hasta": 175000,
+        "tipo_pct": 49.0
+      },
+      {
+        "hasta": 300000,
+        "tipo_pct": 51.0
+      },
+      {
+        "hasta": null,
+        "tipo_pct": 52.0
+      }
+    ],
+    "art20": {
+      "U_Inf": 9180,
+      "R_Max": 4080,
+      "U_Sup": 13260,
+      "R_Min": 2652
+    },
+    "tiene_solidaridad": false,
+    "tiene_deduccion_smi": false
+  },
+  "2015": {
+    "base_max": 43272.0,
+    "ss_empresa_pct": 31.4,
+    "ss_trabajador_pct": 6.35,
+    "mei_empresa_pct": 0.0,
+    "mei_trabajador_pct": 0.0,
+    "gastos_fijos": 2000,
+    "minimo_personal_irpf": 5550,
+    "minimo_exento_retencion": 12000,
+    "tramos_irpf": [
+      {
+        "hasta": 12450,
+        "tipo_pct": 19.5
+      },
+      {
+        "hasta": 20200,
+        "tipo_pct": 24.5
+      },
+      {
+        "hasta": 34000,
+        "tipo_pct": 30.5
+      },
+      {
+        "hasta": 60000,
+        "tipo_pct": 38.0
+      },
+      {
+        "hasta": null,
+        "tipo_pct": 46.0
+      }
+    ],
+    "art20": {
+      "U_Inf": 11250,
+      "R_Max": 3700,
+      "U_Sup": 14450,
+      "R_Min": 0
+    },
+    "tiene_solidaridad": false,
+    "tiene_deduccion_smi": false
+  },
+  "2016": {
+    "base_max": 43704.0,
+    "ss_empresa_pct": 31.4,
+    "ss_trabajador_pct": 6.35,
+    "mei_empresa_pct": 0.0,
+    "mei_trabajador_pct": 0.0,
+    "gastos_fijos": 2000,
+    "minimo_personal_irpf": 5550,
+    "minimo_exento_retencion": 12000,
+    "tramos_irpf": [
+      {
+        "hasta": 12450,
+        "tipo_pct": 19.0
+      },
+      {
+        "hasta": 20200,
+        "tipo_pct": 24.0
+      },
+      {
+        "hasta": 35200,
+        "tipo_pct": 30.0
+      },
+      {
+        "hasta": 60000,
+        "tipo_pct": 37.0
+      },
+      {
+        "hasta": null,
+        "tipo_pct": 45.0
+      }
+    ],
+    "art20": {
+      "U_Inf": 11250,
+      "R_Max": 3700,
+      "U_Sup": 14450,
+      "R_Min": 0
+    },
+    "tiene_solidaridad": false,
+    "tiene_deduccion_smi": false
+  },
+  "2017": {
+    "base_max": 45014.4,
+    "ss_empresa_pct": 31.4,
+    "ss_trabajador_pct": 6.35,
+    "mei_empresa_pct": 0.0,
+    "mei_trabajador_pct": 0.0,
+    "gastos_fijos": 2000,
+    "minimo_personal_irpf": 5550,
+    "minimo_exento_retencion": 12000,
+    "tramos_irpf": [
+      {
+        "hasta": 12450,
+        "tipo_pct": 19.0
+      },
+      {
+        "hasta": 20200,
+        "tipo_pct": 24.0
+      },
+      {
+        "hasta": 35200,
+        "tipo_pct": 30.0
+      },
+      {
+        "hasta": 60000,
+        "tipo_pct": 37.0
+      },
+      {
+        "hasta": null,
+        "tipo_pct": 45.0
+      }
+    ],
+    "art20": {
+      "U_Inf": 11250,
+      "R_Max": 3700,
+      "U_Sup": 14450,
+      "R_Min": 0
+    },
+    "tiene_solidaridad": false,
+    "tiene_deduccion_smi": false
+  },
+  "2018": {
+    "base_max": 45014.4,
+    "ss_empresa_pct": 31.4,
+    "ss_trabajador_pct": 6.35,
+    "mei_empresa_pct": 0.0,
+    "mei_trabajador_pct": 0.0,
+    "gastos_fijos": 2000,
+    "minimo_personal_irpf": 5550,
+    "minimo_exento_retencion": 12643,
+    "tramos_irpf": [
+      {
+        "hasta": 12450,
+        "tipo_pct": 19.0
+      },
+      {
+        "hasta": 20200,
+        "tipo_pct": 24.0
+      },
+      {
+        "hasta": 35200,
+        "tipo_pct": 30.0
+      },
+      {
+        "hasta": 60000,
+        "tipo_pct": 37.0
+      },
+      {
+        "hasta": null,
+        "tipo_pct": 45.0
+      }
+    ],
+    "art20": {
+      "U_Inf": "Transitorio",
+      "R_Max": "Transitorio",
+      "U_Sup": "Transitorio",
+      "R_Min": "Transitorio"
+    },
+    "tiene_solidaridad": false,
+    "tiene_deduccion_smi": false
+  },
+  "2019": {
+    "base_max": 48841.2,
+    "ss_empresa_pct": 31.4,
+    "ss_trabajador_pct": 6.35,
+    "mei_empresa_pct": 0.0,
+    "mei_trabajador_pct": 0.0,
+    "gastos_fijos": 2000,
+    "minimo_personal_irpf": 5550,
+    "minimo_exento_retencion": 14000,
+    "tramos_irpf": [
+      {
+        "hasta": 12450,
+        "tipo_pct": 19.0
+      },
+      {
+        "hasta": 20200,
+        "tipo_pct": 24.0
+      },
+      {
+        "hasta": 35200,
+        "tipo_pct": 30.0
+      },
+      {
+        "hasta": 60000,
+        "tipo_pct": 37.0
+      },
+      {
+        "hasta": null,
+        "tipo_pct": 45.0
+      }
+    ],
+    "art20": {
+      "U_Inf": 13115,
+      "R_Max": 5565,
+      "U_Sup": 16825,
+      "R_Min": 0
+    },
+    "tiene_solidaridad": false,
+    "tiene_deduccion_smi": false
+  },
+  "2020": {
+    "base_max": 48841.2,
+    "ss_empresa_pct": 31.4,
+    "ss_trabajador_pct": 6.35,
+    "mei_empresa_pct": 0.0,
+    "mei_trabajador_pct": 0.0,
+    "gastos_fijos": 2000,
+    "minimo_personal_irpf": 5550,
+    "minimo_exento_retencion": 14000,
+    "tramos_irpf": [
+      {
+        "hasta": 12450,
+        "tipo_pct": 19.0
+      },
+      {
+        "hasta": 20200,
+        "tipo_pct": 24.0
+      },
+      {
+        "hasta": 35200,
+        "tipo_pct": 30.0
+      },
+      {
+        "hasta": 60000,
+        "tipo_pct": 37.0
+      },
+      {
+        "hasta": null,
+        "tipo_pct": 45.0
+      }
+    ],
+    "art20": {
+      "U_Inf": 13115,
+      "R_Max": 5565,
+      "U_Sup": 16825,
+      "R_Min": 0
+    },
+    "tiene_solidaridad": false,
+    "tiene_deduccion_smi": false
+  },
+  "2021": {
+    "base_max": 48841.2,
+    "ss_empresa_pct": 31.4,
+    "ss_trabajador_pct": 6.35,
+    "mei_empresa_pct": 0.0,
+    "mei_trabajador_pct": 0.0,
+    "gastos_fijos": 2000,
+    "minimo_personal_irpf": 5550,
+    "minimo_exento_retencion": 14000,
+    "tramos_irpf": [
+      {
+        "hasta": 12450,
+        "tipo_pct": 19.0
+      },
+      {
+        "hasta": 20200,
+        "tipo_pct": 24.0
+      },
+      {
+        "hasta": 35200,
+        "tipo_pct": 30.0
+      },
+      {
+        "hasta": 60000,
+        "tipo_pct": 37.0
+      },
+      {
+        "hasta": 300000,
+        "tipo_pct": 45.0
+      },
+      {
+        "hasta": null,
+        "tipo_pct": 47.0
+      }
+    ],
+    "art20": {
+      "U_Inf": 13115,
+      "R_Max": 5565,
+      "U_Sup": 16825,
+      "R_Min": 0
+    },
+    "tiene_solidaridad": false,
+    "tiene_deduccion_smi": false
+  },
+  "2022": {
+    "base_max": 49672.8,
+    "ss_empresa_pct": 31.4,
+    "ss_trabajador_pct": 6.35,
+    "mei_empresa_pct": 0.0,
+    "mei_trabajador_pct": 0.0,
+    "gastos_fijos": 2000,
+    "minimo_personal_irpf": 5550,
+    "minimo_exento_retencion": 14000,
+    "tramos_irpf": [
+      {
+        "hasta": 12450,
+        "tipo_pct": 19.0
+      },
+      {
+        "hasta": 20200,
+        "tipo_pct": 24.0
+      },
+      {
+        "hasta": 35200,
+        "tipo_pct": 30.0
+      },
+      {
+        "hasta": 60000,
+        "tipo_pct": 37.0
+      },
+      {
+        "hasta": 300000,
+        "tipo_pct": 45.0
+      },
+      {
+        "hasta": null,
+        "tipo_pct": 47.0
+      }
+    ],
+    "art20": {
+      "U_Inf": 13115,
+      "R_Max": 5565,
+      "U_Sup": 16825,
+      "R_Min": 0
+    },
+    "tiene_solidaridad": false,
+    "tiene_deduccion_smi": false
+  },
+  "2023": {
+    "base_max": 53946.0,
+    "ss_empresa_pct": 31.4,
+    "ss_trabajador_pct": 6.35,
+    "mei_empresa_pct": 0.5,
+    "mei_trabajador_pct": 0.1,
+    "gastos_fijos": 2000,
+    "minimo_personal_irpf": 5550,
+    "minimo_exento_retencion": 15000,
+    "tramos_irpf": [
+      {
+        "hasta": 12450,
+        "tipo_pct": 19.0
+      },
+      {
+        "hasta": 20200,
+        "tipo_pct": 24.0
+      },
+      {
+        "hasta": 35200,
+        "tipo_pct": 30.0
+      },
+      {
+        "hasta": 60000,
+        "tipo_pct": 37.0
+      },
+      {
+        "hasta": 300000,
+        "tipo_pct": 45.0
+      },
+      {
+        "hasta": null,
+        "tipo_pct": 47.0
+      }
+    ],
+    "art20": {
+      "U_Inf": 14047.5,
+      "R_Max": 6498,
+      "U_Sup": 19747.5,
+      "R_Min": 0
+    },
+    "tiene_solidaridad": false,
+    "tiene_deduccion_smi": false
+  },
+  "2024": {
+    "base_max": 56646.0,
+    "ss_empresa_pct": 31.4,
+    "ss_trabajador_pct": 6.35,
+    "mei_empresa_pct": 0.58,
+    "mei_trabajador_pct": 0.12,
+    "gastos_fijos": 2000,
+    "minimo_personal_irpf": 5550,
+    "minimo_exento_retencion": 15876,
+    "tramos_irpf": [
+      {
+        "hasta": 12450,
+        "tipo_pct": 19.0
+      },
+      {
+        "hasta": 20200,
+        "tipo_pct": 24.0
+      },
+      {
+        "hasta": 35200,
+        "tipo_pct": 30.0
+      },
+      {
+        "hasta": 60000,
+        "tipo_pct": 37.0
+      },
+      {
+        "hasta": 300000,
+        "tipo_pct": 45.0
+      },
+      {
+        "hasta": null,
+        "tipo_pct": 47.0
+      }
+    ],
+    "art20": {
+      "U_Inf": 14852,
+      "R_Max": 7302,
+      "U_Sup": 19747.5,
+      "R_Min": 0
+    },
+    "tiene_solidaridad": false,
+    "tiene_deduccion_smi": false
+  },
+  "2025": {
+    "base_max": 58914.0,
+    "ss_empresa_pct": 31.4,
+    "ss_trabajador_pct": 6.35,
+    "mei_empresa_pct": 0.67,
+    "mei_trabajador_pct": 0.13,
+    "gastos_fijos": 2000,
+    "minimo_personal_irpf": 5550,
+    "minimo_exento_retencion": 15876,
+    "tramos_irpf": [
+      {
+        "hasta": 12450,
+        "tipo_pct": 19.0
+      },
+      {
+        "hasta": 20200,
+        "tipo_pct": 24.0
+      },
+      {
+        "hasta": 35200,
+        "tipo_pct": 30.0
+      },
+      {
+        "hasta": 60000,
+        "tipo_pct": 37.0
+      },
+      {
+        "hasta": 300000,
+        "tipo_pct": 45.0
+      },
+      {
+        "hasta": null,
+        "tipo_pct": 47.0
+      }
+    ],
+    "art20": {
+      "U_Inf": 14852,
+      "R_Max": 7302,
+      "U_Sup": 19747.5,
+      "R_Min": 0
+    },
+    "tiene_solidaridad": true,
+    "tiene_deduccion_smi": true
+  },
+  "2026": {
+    "base_max": 61214.4,
+    "ss_empresa_pct": 31.4,
+    "ss_trabajador_pct": 6.35,
+    "mei_empresa_pct": 0.75,
+    "mei_trabajador_pct": 0.15,
+    "gastos_fijos": 2000,
+    "minimo_personal_irpf": 5550,
+    "minimo_exento_retencion": 15876,
+    "tramos_irpf": [
+      {
+        "hasta": 12450,
+        "tipo_pct": 19.0
+      },
+      {
+        "hasta": 20200,
+        "tipo_pct": 24.0
+      },
+      {
+        "hasta": 35200,
+        "tipo_pct": 30.0
+      },
+      {
+        "hasta": 60000,
+        "tipo_pct": 37.0
+      },
+      {
+        "hasta": 300000,
+        "tipo_pct": 45.0
+      },
+      {
+        "hasta": null,
+        "tipo_pct": 47.0
+      }
+    ],
+    "art20": {
+      "U_Inf": 14852,
+      "R_Max": 7302,
+      "U_Sup": 19747.5,
+      "R_Min": 0
+    },
+    "tiene_solidaridad": true,
+    "tiene_deduccion_smi": true
+  }
+}
