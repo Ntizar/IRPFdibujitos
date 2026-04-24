@@ -3,42 +3,53 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>IRPFdibujitos · IRPF y salario neto en Espanita 2012-2026</title>
-<meta name="description" content="Calculadora abierta para entender tu salario neto, el IRPF y la progresividad en frio en Espana entre 2012 y 2026. Hecho para que Jon luche contra los boomers.">
+<title>IRPFdibujitos · IRPF y salario neto en España 2012-2026</title>
+<meta name="description" content="Calculadora abierta para entender tu salario neto, el IRPF y la progresividad en frío en España entre 2012 y 2026. Hecha para que Jon luche contra los boomers.">
 <link rel="stylesheet" href="styles.css">
 </head>
 <body>
 <header class="hero">
   <h1>IRPF<span class="acc">dibujitos</span></h1>
-  <p class="claim">Mete tu bruto. Mira tu neto. Y descubre cuanto te ha sacado la inflacion sin que tocaran un solo tramo.</p>
-  <p class="meta">Codigo abierto MIT, datos CC0. Auditable hasta el ultimo euro.</p>
-  <p class="firma">Hecho por <strong>David Antizar</strong> para <strong>Jon</strong> y <span class="heart">Espanita</span>.</p>
+  <p class="claim">Mete tu bruto. Mira tu neto. Y descubre cuánto te ha sacado la inflación sin que tocaran un solo tramo.</p>
+  <p class="meta">Código abierto MIT, datos CC0. Auditable hasta el último euro.</p>
+  <p class="firma">Hecho por <strong>David Antizar</strong> para <strong>Jon</strong> y <span class="heart">España</span>.</p>
 </header>
 
 <main>
   <section class="card hero-card" id="robo">
-    <h2>Lo que la inflacion te ha robado</h2>
-    <p class="lead">Pon tu sueldo bruto actual y desde que ano lo cobras (mas o menos lo mismo, sin subidas reales). Te decimos cuanto te ha sacado del bolsillo el sistema sin tocarte un papel.</p>
+    <h2>Lo que la inflación te ha robado</h2>
+    <p class="lead">Pon tu sueldo bruto actual y desde qué año lo cobras (más o menos lo mismo, sin subidas reales). Te decimos cuánto te ha sacado del bolsillo el sistema sin tocarte un papel.</p>
 
-    <div class="controls">
-      <label>
-        Tu bruto anual hoy (EUR)
-        <input id="robo-bruto" type="number" min="10000" max="100000" step="500" value="32000">
-      </label>
-      <label>
-        Lo cobras (mas o menos) desde
-        <select id="robo-anio-base"></select>
-      </label>
+    <div class="sliders">
+      <div class="slider-block">
+        <div class="slider-head">
+          <label for="robo-bruto-range">Tu bruto anual hoy</label>
+          <output id="robo-bruto-out" class="slider-out">32.000 €</output>
+        </div>
+        <input id="robo-bruto-range" type="range" min="12000" max="100000" step="500" value="32000" class="slider slider-azul">
+        <div class="slider-scale">
+          <span>12.000 €</span><span>30.000 €</span><span>50.000 €</span><span>70.000 €</span><span>100.000 €</span>
+        </div>
+      </div>
+
+      <div class="slider-block">
+        <div class="slider-head">
+          <label for="robo-anio-range">Lo cobras (más o menos) desde</label>
+          <output id="robo-anio-out" class="slider-out">2018</output>
+        </div>
+        <input id="robo-anio-range" type="range" min="2012" max="2025" step="1" value="2018" class="slider slider-naranja">
+        <div class="slider-scale" id="robo-anio-scale"></div>
+      </div>
     </div>
 
     <div class="robo-grid">
       <div class="robo-kpi big">
-        <span>Lo que deberias cobrar hoy si tu sueldo siguiera al IPC</span>
+        <span>Lo que deberías cobrar hoy si tu sueldo siguiera al IPC</span>
         <strong id="robo-deberia">--</strong>
         <small id="robo-deberia-hint">--</small>
       </div>
       <div class="robo-kpi big alarm">
-        <span>Lo que has perdido SOLO este ano (en tu bolsillo)</span>
+        <span>Lo que has perdido SOLO este año (en tu bolsillo)</span>
         <strong id="robo-anual">--</strong>
         <small>Por no actualizar tu salario al IPC.</small>
       </div>
@@ -48,12 +59,12 @@
         <small id="robo-acum-hint">--</small>
       </div>
       <div class="robo-kpi">
-        <span>IRPF extra que pagas por progresividad en frio</span>
+        <span>IRPF extra que pagas por progresividad en frío</span>
         <strong id="robo-irpf-extra">--</strong>
-        <small>Si los tramos se hubieran deflactado, pagarias menos IRPF cobrando lo mismo.</small>
+        <small>Si los tramos se hubieran deflactado, pagarías menos IRPF cobrando lo mismo.</small>
       </div>
       <div class="robo-kpi">
-        <span>Tu sueldo "real" hoy en euros del ano base</span>
+        <span>Tu sueldo "real" hoy en euros del año base</span>
         <strong id="robo-real-base">--</strong>
         <small id="robo-real-base-hint">--</small>
       </div>
@@ -73,7 +84,7 @@
 
   <section class="card" id="grafico-principal">
     <h2>Tipo efectivo del IRPF entre 2012 y 2026 (en euros de 2026)</h2>
-    <p>Cada linea es un ano. Mismo bruto en poder adquisitivo de 2026, pero con la normativa que tocaba ese ano. Si la <strong style="color:var(--naranja)">linea naranja (2026)</strong> esta por encima de las grises, te estan crujiendo mas hoy que entonces para el mismo sueldo real.</p>
+    <p>Cada línea es un año. Mismo bruto en poder adquisitivo de 2026, pero con la normativa que tocaba ese año. Si la <strong style="color:var(--naranja)">línea naranja (2026)</strong> está por encima de las grises, te están crujiendo más hoy que entonces para el mismo sueldo real.</p>
     <div class="chart-wrap">
       <svg id="chart-tef" class="chart-svg" viewBox="0 0 1100 560" preserveAspectRatio="xMidYMid meet"></svg>
     </div>
@@ -82,15 +93,27 @@
 
   <section class="card" id="calculadora">
     <h2>Calculadora · de tu bruto a tu neto</h2>
-    <div class="controls">
-      <label>
-        Salario bruto anual (EUR)
-        <input id="bruto" type="number" min="0" max="100000" step="100" value="30000">
-      </label>
-      <label>
-        Ano normativo
-        <select id="anio"></select>
-      </label>
+
+    <div class="sliders">
+      <div class="slider-block">
+        <div class="slider-head">
+          <label for="bruto-range">Salario bruto anual</label>
+          <output id="bruto-out" class="slider-out">30.000 €</output>
+        </div>
+        <input id="bruto-range" type="range" min="0" max="100000" step="500" value="30000" class="slider slider-azul">
+        <div class="slider-scale">
+          <span>0 €</span><span>25.000 €</span><span>50.000 €</span><span>75.000 €</span><span>100.000 €</span>
+        </div>
+      </div>
+
+      <div class="slider-block">
+        <div class="slider-head">
+          <label for="anio-range">Año normativo</label>
+          <output id="anio-out" class="slider-out">2026</output>
+        </div>
+        <input id="anio-range" type="range" min="2012" max="2026" step="1" value="2026" class="slider slider-naranja">
+        <div class="slider-scale" id="anio-scale"></div>
+      </div>
     </div>
 
     <div class="resultados">
@@ -114,13 +137,13 @@
   </section>
 
   <section class="card" id="comparativa">
-    <h2>Progresividad en frio · barras</h2>
-    <p>Para el bruto de arriba (entendido como <em>poder adquisitivo de 2026</em>): esto es lo que cobrarias en cada ano si ajustamos por IPC. <strong style="color:var(--naranja)">Naranja = perdiste poder adquisitivo</strong>. Azul = lo mantuviste o ganaste.</p>
+    <h2>Progresividad en frío · barras</h2>
+    <p>Para el bruto de arriba (entendido como <em>poder adquisitivo de 2026</em>): esto es lo que cobrarías en cada año si ajustamos por IPC. <strong style="color:var(--naranja)">Naranja = perdiste poder adquisitivo</strong>. Azul = lo mantuviste o ganaste.</p>
     <div id="grafico" class="grafico"></div>
   </section>
 
   <section class="card" id="tramos">
-    <h2>La escala IRPF del ano seleccionado</h2>
+    <h2>La escala IRPF del año seleccionado</h2>
     <table id="tabla-tramos">
       <thead><tr><th>Tramo</th><th>Hasta base liquidable</th><th>Tipo marginal</th></tr></thead>
       <tbody></tbody>
@@ -128,19 +151,19 @@
   </section>
 
   <section class="card ayuda" id="ayuda">
-    <h2>Letra pequena</h2>
+    <h2>Letra pequeña</h2>
     <ul>
-      <li>Esto es <strong>divulgativo</strong>, no asesoramiento fiscal. Si tu cunado dice lo contrario, ensenale el codigo.</li>
+      <li>Esto es <strong>divulgativo</strong>, no asesoramiento fiscal. Si tu cuñado dice lo contrario, enséñale el código.</li>
       <li>Asume contribuyente sin circunstancias personales adicionales (sin hijos, sin discapacidad, sin reducciones especiales).</li>
-      <li>Usa la escala IRPF estatal+autonomica de referencia. Tu comunidad puede variar (Madrid, te miramos).</li>
+      <li>Usa la escala IRPF estatal+autonómica de referencia. Tu comunidad puede variar (Madrid, te miramos).</li>
       <li>Las cifras de IPC para 2025 y 2026 son provisionales.</li>
-      <li>Codigo y datos: <a href="https://github.com/Ntizar/IRPFdibujitos">github.com/Ntizar/IRPFdibujitos</a></li>
+      <li>Código y datos: <a href="https://github.com/Ntizar/IRPFdibujitos">github.com/Ntizar/IRPFdibujitos</a></li>
     </ul>
   </section>
 </main>
 
 <footer>
-  <p><strong>IRPFdibujitos</strong> · Hecho por <strong>David Antizar</strong> para <strong>Jon</strong> y Espanita · MIT + CC0</p>
+  <p><strong>IRPFdibujitos</strong> · Hecho por <strong>David Antizar</strong> para <strong>Jon</strong> y España · MIT + CC0</p>
   <p style="font-size:.78rem;margin-top:6px">Si te ha gustado, comparte. Si encuentras un fallo, abre un issue. Si eres boomer, respira.</p>
 </footer>
 

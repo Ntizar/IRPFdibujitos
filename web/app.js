@@ -98,7 +98,7 @@ async function pintarGraficoTEF(){
   let svgHTML = "";
 
   // Titulo
-  svgHTML += `<text class="title" x="${margin.left}" y="22">Tipo efectivo del IRPF entre 2012 y 2026 por salario bruto ajustado a la inflacion</text>`;
+  svgHTML += `<text class="title" x="${margin.left}" y="22">Tipo efectivo del IRPF entre 2012 y 2026 por salario bruto ajustado a la inflación</text>`;
 
   // Grid Y
   for(let v = 0; v <= yMax; v += 2){
@@ -127,8 +127,8 @@ async function pintarGraficoTEF(){
   }
 
   // Footer
-  svgHTML += `<text class="footer-note" x="${margin.left}" y="${H-12}">Fuente: elaboracion propia a partir de normativa de Hacienda y Seguridad Social</text>`;
-  svgHTML += `<text class="credit" x="${W-margin.right}" y="${H-12}" text-anchor="end">@DavidAntizar para Jon y Espanita</text>`;
+  svgHTML += `<text class="footer-note" x="${margin.left}" y="${H-12}">Fuente: elaboración propia a partir de normativa de Hacienda y Seguridad Social</text>`;
+  svgHTML += `<text class="credit" x="${W-margin.right}" y="${H-12}" text-anchor="end">@DavidAntizar para Jon y España</text>`;
 
   svg.innerHTML = svgHTML;
 
@@ -237,8 +237,10 @@ async function pintarComparativa(brutoRef){
 }
 
 async function recalc(){
-  const bruto = Number(document.getElementById("bruto").value) || 0;
-  const anio = Number(document.getElementById("anio").value);
+  const bruto = Number(document.getElementById("bruto-range").value) || 0;
+  const anio = Number(document.getElementById("anio-range").value);
+  document.getElementById("bruto-out").textContent = eur(bruto);
+  document.getElementById("anio-out").textContent = anio;
   const dataAnio = await getAnio(anio);
   const reg = consultarBruto(dataAnio, bruto);
   pintarCalculadora(reg);
@@ -257,8 +259,10 @@ async function recalc(){
 // =============================================================================
 
 async function recalcRobo(){
-  const bruto = Number(document.getElementById("robo-bruto").value) || 0;
-  const anioBase = Number(document.getElementById("robo-anio-base").value);
+  const bruto = Number(document.getElementById("robo-bruto-range").value) || 0;
+  const anioBase = Number(document.getElementById("robo-anio-range").value);
+  document.getElementById("robo-bruto-out").textContent = eur(bruto);
+  document.getElementById("robo-anio-out").textContent = anioBase;
   if(!bruto || !anioBase) return;
 
   // IPC acumulado de anioBase a 2026 (factor multiplicador)
@@ -327,11 +331,11 @@ async function recalcRobo(){
   // Pintar KPIs
   document.getElementById("robo-deberia").textContent = eur(brutoDeberia);
   document.getElementById("robo-deberia-hint").textContent =
-    `Eso es ${eur(brutoDeberia - bruto)} mas al ano que ahora.`;
+    `Eso es ${eur(brutoDeberia - bruto)} más al año que ahora.`;
   document.getElementById("robo-anual").textContent = eur(perdidaNetaAnual);
   document.getElementById("robo-acum").textContent = eur(acumNeto);
   document.getElementById("robo-acum-hint").textContent =
-    `Sumado de ${anioBase} a 2026, en EUR de hoy.`;
+    `Sumado de ${anioBase} a 2026, en € de hoy.`;
   document.getElementById("robo-irpf-extra").textContent = eur(irpfExtraAnual);
   document.getElementById("robo-real-base").textContent = eur(brutoRealEnBase);
   document.getElementById("robo-real-base-hint").textContent =
@@ -343,9 +347,9 @@ async function recalcRobo(){
   const meses = perdidaNetaAnual > 0 ? (perdidaNetaAnual / (reg2026.neto / 12)) : 0;
   let frase;
   if(perdidaNetaAnual <= 0){
-    frase = `Enhorabuena, tu salario ha aguantado el IPC desde ${anioBase}. Eres una rareza estadistica.`;
+    frase = `Enhorabuena, tu salario ha aguantado el IPC desde ${anioBase}. Eres una rareza estadística.`;
   } else {
-    frase = `Cobrando lo mismo desde ${anioBase} estas perdiendo ${eur(perdidaNetaAnual)} netos al ano: equivale a trabajar ${meses.toFixed(1)} meses gratis cada ano respecto a lo que te tocaria.`;
+    frase = `Cobrando lo mismo desde ${anioBase} estás perdiendo ${eur(perdidaNetaAnual)} netos al año: equivale a trabajar ${meses.toFixed(1)} meses gratis cada año respecto a lo que te tocaría.`;
   }
   document.getElementById("robo-frase").textContent = frase;
 
@@ -361,7 +365,7 @@ function pintarChartRobo(serie, anioBase){
   const innerH = H - margin.top - margin.bottom;
 
   if(serie.length < 2){
-    svg.innerHTML = `<text class="title" x="${W/2}" y="${H/2}" text-anchor="middle">Elige un ano base anterior a 2026</text>`;
+    svg.innerHTML = `<text class="title" x="${W/2}" y="${H/2}" text-anchor="middle">Elige un año base anterior a 2026</text>`;
     return;
   }
 
@@ -408,14 +412,14 @@ function pintarChartRobo(serie, anioBase){
   h += `<g transform="translate(${margin.left+12},${margin.top+12})">`;
   h += `<rect width="290" height="48" fill="white" fill-opacity="0.9" rx="8" stroke="#e3e8ef"/>`;
   h += `<line x1="12" y1="18" x2="36" y2="18" stroke="#003da5" stroke-width="3"/>`;
-  h += `<text x="44" y="22" class="axis-label" style="font-weight:700">Lo que deberias cobrar (sigue al IPC)</text>`;
+  h += `<text x="44" y="22" class="axis-label" style="font-weight:700">Lo que deberías cobrar (sigue al IPC)</text>`;
   h += `<line x1="12" y1="38" x2="36" y2="38" stroke="#ff6b1a" stroke-width="3" stroke-dasharray="6 4"/>`;
   h += `<text x="44" y="42" class="axis-label" style="font-weight:700">Lo que cobras (congelado nominal)</text>`;
   h += `</g>`;
 
   // Footer
-  h += `<text class="footer-note" x="${margin.left}" y="${H-12}">Ano base: ${anioBase}. Todos los importes expresados en EUR constantes de 2026.</text>`;
-  h += `<text class="credit" x="${W-margin.right}" y="${H-12}" text-anchor="end">@DavidAntizar para Jon y Espanita</text>`;
+  h += `<text class="footer-note" x="${margin.left}" y="${H-12}">Año base: ${anioBase}. Todos los importes expresados en € constantes de 2026.</text>`;
+  h += `<text class="credit" x="${W-margin.right}" y="${H-12}" text-anchor="end">@DavidAntizar para Jon y España</text>`;
 
   svg.innerHTML = h;
 }
@@ -426,35 +430,32 @@ async function init(){
     state.parametros = await loadJSON(`${DATA_BASE}/parametros.json`);
     state.comparativa = await loadJSON(`${DATA_BASE}/comparativa_ipc.json`);
   }catch(e){
-    document.querySelector("main").innerHTML = `<div class="card"><h2>Datos no encontrados</h2><p>Antes de abrir la web hay que generar los JSON con <code>python python/generar_datos.py</code>. En produccion (GitHub Pages) los datos se generan en CI.</p></div>`;
+    document.querySelector("main").innerHTML = `<div class="card"><h2>Datos no encontrados</h2><p>Antes de abrir la web hay que generar los JSON con <code>python python/generar_datos.py</code>. En producción (GitHub Pages) los datos se generan en CI.</p></div>`;
     console.error(e);
     return;
   }
 
-  // Poblar select de ano base de la seccion "robo"
-  const selRobo = document.getElementById("robo-anio-base");
-  state.indice.anios.filter(a => a < 2026).forEach(a => {
-    const opt = document.createElement("option");
-    opt.value = a; opt.textContent = a;
-    if(a === 2018) opt.selected = true;
-    selRobo.appendChild(opt);
-  });
+  // Escala de anios para sliders (etiquetas debajo)
+  const aniosTodos = state.indice.anios;
+  const escAnio = document.getElementById("anio-scale");
+  // Mostramos primer, alguno intermedio y ultimo
+  const ticksAnio = [aniosTodos[0], aniosTodos[Math.floor(aniosTodos.length/3)], aniosTodos[Math.floor(2*aniosTodos.length/3)], aniosTodos[aniosTodos.length-1]];
+  escAnio.innerHTML = ticksAnio.map(a => `<span>${a}</span>`).join("");
+  const aniosBase = aniosTodos.filter(a => a < 2026);
+  const escRobo = document.getElementById("robo-anio-scale");
+  const ticksRobo = [aniosBase[0], aniosBase[Math.floor(aniosBase.length/3)], aniosBase[Math.floor(2*aniosBase.length/3)], aniosBase[aniosBase.length-1]];
+  escRobo.innerHTML = ticksRobo.map(a => `<span>${a}</span>`).join("");
 
   // Pintar grafico de lineas (usa todos los anios)
   await pintarGraficoTEF();
 
-  const sel = document.getElementById("anio");
-  state.indice.anios.forEach(a => {
-    const opt = document.createElement("option");
-    opt.value = a; opt.textContent = a;
-    if(a === 2026) opt.selected = true;
-    sel.appendChild(opt);
+  // Listeners sliders
+  ["robo-bruto-range","robo-anio-range"].forEach(id => {
+    document.getElementById(id).addEventListener("input", recalcRobo);
   });
-
-  document.getElementById("bruto").addEventListener("input", recalc);
-  sel.addEventListener("change", recalc);
-  document.getElementById("robo-bruto").addEventListener("input", recalcRobo);
-  selRobo.addEventListener("change", recalcRobo);
+  ["bruto-range","anio-range"].forEach(id => {
+    document.getElementById(id).addEventListener("input", recalc);
+  });
 
   await recalc();
   await recalcRobo();
