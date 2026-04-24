@@ -3,20 +3,30 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>IRPFdibujitos · IRPF y salario neto en Espana 2012-2026</title>
-<meta name="description" content="Calculadora abierta para entender tu salario neto, el IRPF y la progresividad en frio en Espana entre 2012 y 2026.">
+<title>IRPFdibujitos · IRPF y salario neto en Espanita 2012-2026</title>
+<meta name="description" content="Calculadora abierta para entender tu salario neto, el IRPF y la progresividad en frio en Espana entre 2012 y 2026. Hecho para que Jon luche contra los boomers.">
 <link rel="stylesheet" href="styles.css">
 </head>
 <body>
 <header class="hero">
   <h1>IRPF<span class="acc">dibujitos</span></h1>
-  <p class="claim">Mete tu bruto. Mira tu neto. Compara con cualquier ano desde 2012.</p>
-  <p class="meta">Codigo MIT, contenido CC0. Este es un proyecto <strong>abierto y auditable</strong>. Si ves un error, abre un issue.</p>
+  <p class="claim">Mete tu bruto. Mira tu neto. Y descubre cuanto te ha sacado la inflacion sin que tocaran un solo tramo.</p>
+  <p class="meta">Codigo abierto MIT, datos CC0. Auditable hasta el ultimo euro.</p>
+  <p class="firma">Hecho por <strong>David Antizar</strong> para <strong>Jon</strong> y <span class="heart">Espanita</span>.</p>
 </header>
 
 <main>
+  <section class="card" id="grafico-principal">
+    <h2>Tipo efectivo del IRPF entre 2012 y 2026 (en euros de 2026)</h2>
+    <p>Cada linea es un ano. Mismo bruto en poder adquisitivo de 2026, pero con la normativa que tocaba ese ano. Si la <strong style="color:var(--naranja)">linea naranja (2026)</strong> esta por encima de las grises, te estan crujiendo mas hoy que entonces para el mismo sueldo real.</p>
+    <div class="chart-wrap">
+      <svg id="chart-tef" class="chart-svg" viewBox="0 0 1100 560" preserveAspectRatio="xMidYMid meet"></svg>
+    </div>
+    <div class="legend" id="chart-legend"></div>
+  </section>
+
   <section class="card" id="calculadora">
-    <h2>1 · Calculadora</h2>
+    <h2>Calculadora · de tu bruto a tu neto</h2>
     <div class="controls">
       <label>
         Salario bruto anual (EUR)
@@ -30,7 +40,7 @@
 
     <div class="resultados">
       <div class="kpi"><span>Salario neto</span><strong id="r-neto">--</strong></div>
-      <div class="kpi"><span>IRPF retenido</span><strong id="r-irpf">--</strong></div>
+      <div class="kpi kpi-irpf"><span>IRPF retenido</span><strong id="r-irpf">--</strong></div>
       <div class="kpi"><span>SS trabajador</span><strong id="r-sst">--</strong></div>
       <div class="kpi"><span>Coste laboral empresa</span><strong id="r-coste">--</strong></div>
       <div class="kpi"><span>Tipo efectivo total</span><strong id="r-tef">--</strong></div>
@@ -42,32 +52,32 @@
       <div class="bar" id="bar-ss"   title="SS Trabajador"></div>
     </div>
     <div class="bar-legend">
-      <span><i class="sw sw-neto"></i>Neto</span>
-      <span><i class="sw sw-irpf"></i>IRPF</span>
-      <span><i class="sw sw-ss"></i>SS trabajador</span>
+      <span><i class="sw sw-neto"></i>Neto (lo que ves)</span>
+      <span><i class="sw sw-irpf"></i>IRPF (lo que se queda Hacienda)</span>
+      <span><i class="sw sw-ss"></i>SS trabajador (lo que se queda la SS)</span>
     </div>
   </section>
 
   <section class="card" id="comparativa">
-    <h2>2 · Progresividad en frio</h2>
-    <p>Para el bruto que has metido (entendido como <em>poder adquisitivo de 2026</em>), esto es lo que cobrarias en cada ano si nos ajustamos por IPC. Si la barra esta por debajo del 100%, ese ano cobrabas menos en terminos reales que hoy.</p>
+    <h2>Progresividad en frio · barras</h2>
+    <p>Para el bruto de arriba (entendido como <em>poder adquisitivo de 2026</em>): esto es lo que cobrarias en cada ano si ajustamos por IPC. <strong style="color:var(--naranja)">Naranja = perdiste poder adquisitivo</strong>. Azul = lo mantuviste o ganaste.</p>
     <div id="grafico" class="grafico"></div>
   </section>
 
   <section class="card" id="tramos">
-    <h2>3 · Escala IRPF del ano seleccionado</h2>
+    <h2>La escala IRPF del ano seleccionado</h2>
     <table id="tabla-tramos">
       <thead><tr><th>Tramo</th><th>Hasta base liquidable</th><th>Tipo marginal</th></tr></thead>
       <tbody></tbody>
     </table>
   </section>
 
-  <section class="card" id="ayuda">
-    <h2>4 · Aviso y limites del modelo</h2>
+  <section class="card ayuda" id="ayuda">
+    <h2>Letra pequena</h2>
     <ul>
-      <li>Esto es <strong>divulgativo</strong>, no asesoramiento fiscal.</li>
+      <li>Esto es <strong>divulgativo</strong>, no asesoramiento fiscal. Si tu cunado dice lo contrario, ensenale el codigo.</li>
       <li>Asume contribuyente sin circunstancias personales adicionales (sin hijos, sin discapacidad, sin reducciones especiales).</li>
-      <li>Usa la escala IRPF estatal+autonomica de referencia. Tu comunidad autonoma puede variar.</li>
+      <li>Usa la escala IRPF estatal+autonomica de referencia. Tu comunidad puede variar (Madrid, te miramos).</li>
       <li>Las cifras de IPC para 2025 y 2026 son provisionales.</li>
       <li>Codigo y datos: <a href="https://github.com/Ntizar/IRPFdibujitos">github.com/Ntizar/IRPFdibujitos</a></li>
     </ul>
@@ -75,7 +85,8 @@
 </main>
 
 <footer>
-  <p>IRPFdibujitos · MIT (codigo) · CC0 (contenido) · Hecho para que entender tu nomina sea de todos.</p>
+  <p><strong>IRPFdibujitos</strong> · Hecho por <strong>David Antizar</strong> para <strong>Jon</strong> y Espanita · MIT + CC0</p>
+  <p style="font-size:.78rem;margin-top:6px">Si te ha gustado, comparte. Si encuentras un fallo, abre un issue. Si eres boomer, respira.</p>
 </footer>
 
 <script src="app.js"></script>

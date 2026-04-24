@@ -1,69 +1,106 @@
 # IRPFdibujitos
 
-Democraticemos el calculo del IRPF y del salario neto en Espana.
+> Hecho por **David Antizar** para **Jon** y **Españita**.
+> Para que cuando un boomer te diga "es que en mis tiempos pagabamos mas", le pongas la grafica delante.
 
-Este repositorio nace con tres objetivos:
+**Web**: https://ntizar.github.io/IRPFdibujitos/
+**Codigo**: MIT · **Datos y manual**: CC0 1.0 · Mas abierto, imposible.
 
-1. Que cualquiera pueda meter su salario bruto y entender, con dibujitos, como sale su salario neto.
-2. Comparar el mismo salario real entre 2012 y 2026 para visualizar la **progresividad en frio**: cuanto poder adquisitivo se gana o se pierde aunque suban los numeros.
-3. Que economistas, fiscalistas e inspectores **auditen** los calculos linea a linea y los developers los pulan.
+---
 
-Web (proximamente, GitHub Pages): https://ntizar.github.io/IRPFdibujitos/
+## Que es esto
 
-Licencias: codigo MIT, contenido y datos CC0 1.0. Todo lo abierto que la ley permite.
+Una web sencilla, en azul y naranja como Españita misma, donde:
 
-## Convocatoria
+1. Metes tu **bruto anual**.
+2. Eliges un **ano normativo** entre 2012 y 2026.
+3. Ves **tu neto, tu IRPF, tu cotizacion** y **cuanto le cuestas a tu jefe** (spoiler: mas de lo que crees).
+4. Y, lo importante, ves **la grafica de la verguenza**: el tipo efectivo del IRPF para el mismo salario real entre 2012 y 2026, ajustado por inflacion.
 
-Necesitamos:
+Si la linea de **2026 esta por encima** de las grises, te estan crujiendo mas hoy que hace 14 anos para el mismo poder adquisitivo. Y no es porque ganes mas. Es por la **progresividad en frio**.
 
-- **Fiscalistas, economistas e inspectores**: auditar parametros normativos y formulas anio a anio. Cada euro de tramo, cada reduccion del art.20, cada minimo personal, cada deduccion del SMI. Si veis algo mal, abrid issue del tipo `auditoria-fiscal`.
-- **Developers Python**: refactorizar el motor, anadir tests por anio (caso conocido y caso limite), optimizar la generacion de datos.
-- **Developers Web**: la pagina actual es vanilla a proposito (cero build, todo auditable). Bienvenidas mejoras de UX, accesibilidad y graficas, manteniendo cero dependencias salvo las imprescindibles.
-- **Divulgadores**: el manual `docs/manual.md` esta en v0. Hay que explicar claro las normativas y su impacto entre 2012 y 2026.
+## Que es la progresividad en frio (en una frase)
 
-Plantillas de issue listas en GitHub para cada rol.
+Los tramos del IRPF **no se actualizan con el IPC**. Asi que cuando te suben el sueldo "lo que la inflacion", te metes en un tramo mas alto. Pagas mas IRPF. Te quedas igual o peor en el bolsillo. Pero los numeros nominales suben y nadie protesta.
 
-## Estructura
+Es el impuesto silencioso. No tiene padre politico, no aparece en titulares, no se vota. Solo te lo encuentras en la nomina.
 
-```
-python/             motor de calculo + generador de Excel y JSON
-  irpfdibujitos/    paquete (parametros, motor, inflacion)
-  tests/            pruebas pytest
-  generar_excel.py  reproduce el Excel original de auditoria
-  generar_datos.py  exporta los JSON que consume la web
-web/                GitHub Pages (HTML + CSS + JS vanilla)
-data/               JSON precalculados publicados (uno por anio + comparativa)
-docs/               manual divulgativo
-```
+## Convocatoria abierta
 
-## Como reproducir los calculos en local
+**Jon** tira la idea. **David** monta el codigo. Y desde aqui llamamos a:
+
+- **Fiscalistas, economistas e inspectores**: auditen el codigo. Cada euro de cada tramo de cada ano. Si ven algo mal, [issue tipo `auditoria-fiscal`](https://github.com/Ntizar/IRPFdibujitos/issues/new?template=01_auditoria_fiscal.md) con la cita del BOE. Lo arreglamos en el dia.
+- **Devs Python**: refactorizad, anadid tests, optimizad. Lo que querais.
+- **Devs web**: mejorad el front. Es vanilla a proposito, cero npm, cero build, cero excusas.
+- **Divulgadores**: el manual esta en `docs/manual.md`. En v0. Hay que pulirlo, traducirlo, ilustrarlo. Sin pedir permiso.
+
+Convocados originales del hilo: @Gsnchez · @XMihura · @Inspectores_IHE · @frdelatorre · @Jaume_Vinas · @SantiCalvo_Eco
+
+## Para boomers que han llegado hasta aqui
+
+Tranquilos. Esto no es contra vosotros. Es contra el **sistema** que lleva 14 anos sin deflactar tramos del IRPF mientras la vida sube un 30% acumulado. Si os gustaba mas Espana antes, la grafica os va a dar la razon en algunas cosas y un disgusto en otras.
+
+Pero por favor: dejad de decir que la juventud no se esfuerza. Mirad el grafico primero.
+
+## Como reproducirlo en local
 
 ```bash
-cd python
+git clone https://github.com/Ntizar/IRPFdibujitos
+cd IRPFdibujitos/python
 pip install -r requirements.txt
-python generar_excel.py     # genera Auditoria_Integral_Nominas_e_Inflacion_2012_2026.xlsx
-python generar_datos.py     # genera ../data/*.json para la web
-pytest                       # corre tests
+python generar_datos.py     # genera los JSON que come la web
+pytest                       # 47 tests, deberian pasar
 ```
 
-## Como abrir la web en local
-
-No hace falta build. Solo un servidor estatico cualquiera:
+Y la web:
 
 ```bash
-cd web
+cd ../web
 python -m http.server 8000
 # abre http://localhost:8000
 ```
 
-## Aviso importante
+## Estructura del repo
 
-Esto es una herramienta divulgativa. **No es asesoramiento fiscal**. La nomina real de cada persona depende de circunstancias personales (familia, discapacidad, comunidad autonoma, retribuciones en especie, regularizaciones, etc.) que este modelo no contempla en su V1. Para tu caso concreto, pregunta a un profesional.
+```
+python/
+  irpfdibujitos/   <- motor (parametros normativos + calculo)
+  generar_datos.py <- exporta JSON para la web
+  generar_excel.py <- reproduce el Excel mega-detallado de auditoria
+  tests/           <- pytest
+  original/        <- script original de David, intacto, por trazabilidad
+data/              <- JSON precalculados (los come la web)
+web/               <- HTML + CSS + JS vanilla. GitHub Pages.
+docs/              <- manual divulgativo
+.github/           <- CI + plantillas de issue
+```
 
-## Origen
+## Aviso de adultos
 
-Hilo original donde se convoca el proyecto: ver `docs/origen.md`.
+Esto es **divulgativo**. No es asesoramiento fiscal. Si tu cuñado dice lo contrario, ensenale el codigo. Si tu cuñado **es asesor fiscal**, mejor todavia: que abra un PR.
 
-## Contacto
+Modela:
+- IRPF estatal+autonomico de referencia (no contempla peculiaridades por CCAA).
+- Cotizaciones SS regimen general.
+- Reduccion art.20, gastos fijos art.19, MEI, cuota de solidaridad, deduccion SMI.
+- Limite del 43% del art. 85.3 RIRPF.
 
-Issues y discussions en este mismo repositorio.
+No modela (todavia, abierto a PR):
+- Hijos, ascendientes, discapacidad.
+- Diferencias por CCAA.
+- Retribuciones en especie.
+- Pagadores multiples.
+- Aportaciones a planes de pensiones.
+
+## Licencia
+
+- **Codigo** (Python, JS, CSS, HTML): MIT. Haz lo que quieras, solo no nos demandes.
+- **Contenido** (manual, datos, JSON, textos, capturas): CC0 1.0. Renuncia total. Es de todos.
+
+## Creditos
+
+Hecho por **David Antizar** ([@DavidAntizar](https://x.com/DavidAntizar)) para **Jon** y **Españita**.
+
+Si te ha gustado, comparte. Si encuentras un fallo, abre un issue. Si te ha cambiado la perspectiva, cuentaselo a un boomer.
+
+GO GO GO.
