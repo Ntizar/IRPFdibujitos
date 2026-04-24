@@ -252,6 +252,174 @@ async function recalc(){
   destacarLinea(anio);
 }
 
+// =============================================================================
+// 5) "LO QUE LA INFLACION TE HA ROBADO" - vista personal
+// =============================================================================
+
+async function recalcRobo(){
+  const bruto = Number(document.getElementById("robo-bruto").value) || 0;
+  const anioBase = Number(document.getElementById("robo-anio-base").value);
+  if(!bruto || !anioBase) return;
+
+  // IPC acumulado de anioBase a 2026 (factor multiplicador)
+  // ipc_acumulado_a_2026[anioBase] = factor por el que multiplicar EUR(anioBase) -> EUR(2026)
+  const ipcFactor = state.comparativa.ipc_acumulado_a_2026[String(anioBase)];
+
+  // Lo que deberias cobrar hoy si tu sueldo siguiera al IPC
+  const brutoDeberia = bruto * ipcFactor;
+
+  // Tu sueldo "real" hoy en EUR del ano base (deflactado)
+  const brutoRealEnBase = bruto / ipcFactor;
+
+  // Calculos de neto en 2026 con el bruto actual
+  const data2026 = await getAnio(2026);
+  const reg2026 = consultarBruto(data2026, bruto);
+
+  // Calculo de neto en 2026 si cobraras lo que el IPC dicta
+  const regDeberia = consultarBruto(data2026, brutoDeberia);
+
+  // Diferencia anual en NETO (lo que pierdes en bolsillo este ano)
+  const perdidaNetaAnual = regDeberia.neto - reg2026.neto;
+
+  // Acumulado: simulamos cada ano desde anioBase a 2026
+  // Hipotesis: tu salario nominal se mantiene en el bruto actual (escenario A)
+  //            vs salario que sigue al IPC ano a ano (escenario B)
+  // Diferencia de neto anual, sumada en EUR de cada ano (no deflactamos al sumar
+  // porque queremos "euros que dejaste de tener entonces")
+  const aniosLista = state.indice.anios.filter(a => a >= anioBase && a <= 2026);
+  let acumNeto = 0;
+  const serie = [];  // [anio, brutoIdeal_eur2026, brutoReal_eur2026, neto_ideal, neto_real]
+  for(const a of aniosLista){
+    const dataA = await getAnio(a);
+    const ipcA = state.comparativa.ipc_acumulado_a_2026[String(a)];
+    // Escenario REAL: cobras siempre el mismo nominal (bruto actual) desde el ano base
+    const brutoNominalA_real = bruto;
+    // Escenario IDEAL: tu nominal sube con el IPC, en ano A nominal = bruto * factor(base->A)
+    //   factor(base->A) = ipcFactor / ipcA  (porque ipc_acum_a_2026[X] = factor X->2026)
+    const brutoNominalA_ideal = bruto * (ipcFactor / ipcA);
+
+    const regReal = consultarBruto(dataA, brutoNominalA_real);
+    const regIdeal = consultarBruto(dataA, brutoNominalA_ideal);
+
+    const diffNetoA = regIdeal.neto - regReal.neto;  // en EUR de ese ano
+    // Lo expresamos en EUR 2026 para sumar coherentemente
+    acumNeto += diffNetoA * ipcA;
+
+    serie.push({
+      anio: a,
+      brutoIdealEur2026: brutoNominalA_ideal * ipcA,
+      brutoRealEur2026: brutoNominalA_real * ipcA,
+      netoIdealEur2026: regIdeal.neto * ipcA,
+      netoRealEur2026: regReal.neto * ipcA,
+    });
+  }
+
+  // IRPF extra por progresividad en frio:
+  // Si los tramos se hubieran deflactado del ano base a 2026, cobrando lo mismo (bruto actual)
+  // pagarias el IRPF que pagarias en el ano base sobre el bruto deflactado al ano base
+  const dataBase = await getAnio(anioBase);
+  const regSiTramosBase = consultarBruto(dataBase, brutoRealEnBase);
+  // Tipo efectivo IRPF entonces vs ahora (sobre mismo poder adquisitivo)
+  const tefIrpfBase = regSiTramosBase.tipo_efectivo_irpf_pct;
+  const tefIrpfAhora = reg2026.tipo_efectivo_irpf_pct;
+  const irpfExtraAnual = (tefIrpfAhora - tefIrpfBase) / 100 * bruto;
+
+  // Pintar KPIs
+  document.getElementById("robo-deberia").textContent = eur(brutoDeberia);
+  document.getElementById("robo-deberia-hint").textContent =
+    `Eso es ${eur(brutoDeberia - bruto)} mas al ano que ahora.`;
+  document.getElementById("robo-anual").textContent = eur(perdidaNetaAnual);
+  document.getElementById("robo-acum").textContent = eur(acumNeto);
+  document.getElementById("robo-acum-hint").textContent =
+    `Sumado de ${anioBase} a 2026, en EUR de hoy.`;
+  document.getElementById("robo-irpf-extra").textContent = eur(irpfExtraAnual);
+  document.getElementById("robo-real-base").textContent = eur(brutoRealEnBase);
+  document.getElementById("robo-real-base-hint").textContent =
+    `Tu bruto de hoy vale lo que ${eur(brutoRealEnBase)} en ${anioBase}.`;
+  document.getElementById("robo-tef").textContent = pct(reg2026.tipo_efectivo_total_pct);
+  document.getElementById("robo-tef-base").textContent = pct(regSiTramosBase.tipo_efectivo_total_pct);
+
+  // Frase de impacto
+  const meses = perdidaNetaAnual > 0 ? (perdidaNetaAnual / (reg2026.neto / 12)) : 0;
+  let frase;
+  if(perdidaNetaAnual <= 0){
+    frase = `Enhorabuena, tu salario ha aguantado el IPC desde ${anioBase}. Eres una rareza estadistica.`;
+  } else {
+    frase = `Cobrando lo mismo desde ${anioBase} estas perdiendo ${eur(perdidaNetaAnual)} netos al ano: equivale a trabajar ${meses.toFixed(1)} meses gratis cada ano respecto a lo que te tocaria.`;
+  }
+  document.getElementById("robo-frase").textContent = frase;
+
+  // Pintar SVG de evolucion
+  pintarChartRobo(serie, anioBase);
+}
+
+function pintarChartRobo(serie, anioBase){
+  const svg = document.getElementById("chart-robo");
+  const W = 1100, H = 500;
+  const margin = {top:48, right:32, bottom:64, left:78};
+  const innerW = W - margin.left - margin.right;
+  const innerH = H - margin.top - margin.bottom;
+
+  if(serie.length < 2){
+    svg.innerHTML = `<text class="title" x="${W/2}" y="${H/2}" text-anchor="middle">Elige un ano base anterior a 2026</text>`;
+    return;
+  }
+
+  const xMin = serie[0].anio, xMax = serie[serie.length-1].anio;
+  const allVals = serie.flatMap(s => [s.brutoIdealEur2026, s.brutoRealEur2026]);
+  const yMax = Math.ceil(Math.max(...allVals) / 5000) * 5000;
+  const yMin = Math.floor(Math.min(...allVals) / 5000) * 5000;
+
+  const x = v => margin.left + (v - xMin) / Math.max(1,(xMax - xMin)) * innerW;
+  const y = v => margin.top + (1 - (v - yMin) / Math.max(1,(yMax - yMin))) * innerH;
+
+  let h = "";
+  h += `<text class="title" x="${margin.left}" y="22">Tu salario ideal vs tu salario real (en EUR de 2026)</text>`;
+
+  // Grid Y
+  const stepY = (yMax - yMin) <= 30000 ? 2500 : 5000;
+  for(let v = yMin; v <= yMax; v += stepY){
+    const yp = y(v);
+    h += `<line class="grid" x1="${margin.left}" x2="${margin.left+innerW}" y1="${yp}" y2="${yp}"/>`;
+    h += `<text class="axis-label" x="${margin.left-8}" y="${yp+4}" text-anchor="end">${v.toLocaleString("es-ES")} EUR</text>`;
+  }
+  // Grid X (cada ano)
+  for(const s of serie){
+    const xp = x(s.anio);
+    h += `<line class="grid" x1="${xp}" x2="${xp}" y1="${margin.top}" y2="${margin.top+innerH}"/>`;
+    h += `<text class="axis-label" x="${xp}" y="${margin.top+innerH+18}" text-anchor="middle">${s.anio}</text>`;
+  }
+  // Ejes
+  h += `<line class="axis" x1="${margin.left}" x2="${margin.left+innerW}" y1="${margin.top+innerH}" y2="${margin.top+innerH}"/>`;
+  h += `<line class="axis" x1="${margin.left}" x2="${margin.left}" y1="${margin.top}" y2="${margin.top+innerH}"/>`;
+
+  // Area entre las dos lineas (la perdida)
+  const ptsIdeal = serie.map(s => `${x(s.anio)},${y(s.brutoIdealEur2026)}`);
+  const ptsReal = serie.map(s => `${x(s.anio)},${y(s.brutoRealEur2026)}`);
+  const areaPath = `M ${ptsIdeal.join(" L ")} L ${ptsReal.slice().reverse().join(" L ")} Z`;
+  h += `<path d="${areaPath}" fill="#ff6b1a" fill-opacity="0.15"/>`;
+
+  // Linea ideal (IPC)
+  h += `<polyline class="line line-actual" points="${ptsIdeal.join(" ")}" stroke="#003da5" fill="none" stroke-width="2.8"/>`;
+  // Linea real (congelada nominal)
+  h += `<polyline class="line" points="${ptsReal.join(" ")}" stroke="#ff6b1a" fill="none" stroke-width="2.8" stroke-dasharray="6 4"/>`;
+
+  // Leyenda dentro del SVG
+  h += `<g transform="translate(${margin.left+12},${margin.top+12})">`;
+  h += `<rect width="290" height="48" fill="white" fill-opacity="0.9" rx="8" stroke="#e3e8ef"/>`;
+  h += `<line x1="12" y1="18" x2="36" y2="18" stroke="#003da5" stroke-width="3"/>`;
+  h += `<text x="44" y="22" class="axis-label" style="font-weight:700">Lo que deberias cobrar (sigue al IPC)</text>`;
+  h += `<line x1="12" y1="38" x2="36" y2="38" stroke="#ff6b1a" stroke-width="3" stroke-dasharray="6 4"/>`;
+  h += `<text x="44" y="42" class="axis-label" style="font-weight:700">Lo que cobras (congelado nominal)</text>`;
+  h += `</g>`;
+
+  // Footer
+  h += `<text class="footer-note" x="${margin.left}" y="${H-12}">Ano base: ${anioBase}. Todos los importes expresados en EUR constantes de 2026.</text>`;
+  h += `<text class="credit" x="${W-margin.right}" y="${H-12}" text-anchor="end">@DavidAntizar para Jon y Espanita</text>`;
+
+  svg.innerHTML = h;
+}
+
 async function init(){
   try{
     state.indice = await loadJSON(`${DATA_BASE}/anios.json`);
@@ -263,7 +431,16 @@ async function init(){
     return;
   }
 
-  // Pintar grafico de lineas primero (usa todos los anios)
+  // Poblar select de ano base de la seccion "robo"
+  const selRobo = document.getElementById("robo-anio-base");
+  state.indice.anios.filter(a => a < 2026).forEach(a => {
+    const opt = document.createElement("option");
+    opt.value = a; opt.textContent = a;
+    if(a === 2018) opt.selected = true;
+    selRobo.appendChild(opt);
+  });
+
+  // Pintar grafico de lineas (usa todos los anios)
   await pintarGraficoTEF();
 
   const sel = document.getElementById("anio");
@@ -276,7 +453,11 @@ async function init(){
 
   document.getElementById("bruto").addEventListener("input", recalc);
   sel.addEventListener("change", recalc);
+  document.getElementById("robo-bruto").addEventListener("input", recalcRobo);
+  selRobo.addEventListener("change", recalcRobo);
+
   await recalc();
+  await recalcRobo();
 }
 
 init();

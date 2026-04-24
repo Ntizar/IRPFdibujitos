@@ -43,6 +43,35 @@ main{max-width:1040px;margin:0 auto;padding:24px 16px 60px}
   margin:0 0 14px;font-size:1.25rem;color:var(--azul);
   border-bottom:2px solid var(--naranja);padding-bottom:8px;display:inline-block;
 }
+
+/* Card de impacto */
+.hero-card{
+  background:linear-gradient(135deg, #fff 0%, #fff7f0 100%);
+  border:2px solid var(--naranja);
+}
+.hero-card h2{font-size:1.6rem;border-bottom:3px solid var(--naranja)}
+.hero-card .lead{font-size:1.05rem;color:var(--fg)}
+
+.robo-grid{
+  display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px;margin:20px 0;
+}
+.robo-kpi{
+  background:#fff;border:1.5px solid var(--line);border-radius:14px;padding:16px 18px;
+  display:flex;flex-direction:column;gap:6px;
+}
+.robo-kpi span{font-size:.78rem;color:var(--muted);text-transform:uppercase;letter-spacing:.04em;font-weight:700;line-height:1.3}
+.robo-kpi strong{font-size:1.7rem;color:var(--azul);font-variant-numeric:tabular-nums;line-height:1.1}
+.robo-kpi small{color:var(--muted);font-size:.8rem;line-height:1.35}
+.robo-kpi.big{background:linear-gradient(180deg,#fff 0%,var(--azul-soft) 200%)}
+.robo-kpi.big strong{font-size:2.1rem}
+.robo-kpi.alarm{border-color:var(--naranja);background:linear-gradient(180deg,#fff 0%,#fff0e3 200%)}
+.robo-kpi.alarm strong{color:var(--naranja)}
+
+.robo-frase{
+  text-align:center;font-size:1.15rem;color:var(--azul);font-weight:600;
+  margin:18px 0 0;padding:14px;background:var(--azul-soft);border-radius:12px;
+  border-left:4px solid var(--naranja);
+}
 .card p{color:var(--fg)}
 .card p em{color:var(--muted);font-style:normal}
 

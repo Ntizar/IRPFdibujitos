@@ -16,6 +16,61 @@
 </header>
 
 <main>
+  <section class="card hero-card" id="robo">
+    <h2>Lo que la inflacion te ha robado</h2>
+    <p class="lead">Pon tu sueldo bruto actual y desde que ano lo cobras (mas o menos lo mismo, sin subidas reales). Te decimos cuanto te ha sacado del bolsillo el sistema sin tocarte un papel.</p>
+
+    <div class="controls">
+      <label>
+        Tu bruto anual hoy (EUR)
+        <input id="robo-bruto" type="number" min="10000" max="100000" step="500" value="32000">
+      </label>
+      <label>
+        Lo cobras (mas o menos) desde
+        <select id="robo-anio-base"></select>
+      </label>
+    </div>
+
+    <div class="robo-grid">
+      <div class="robo-kpi big">
+        <span>Lo que deberias cobrar hoy si tu sueldo siguiera al IPC</span>
+        <strong id="robo-deberia">--</strong>
+        <small id="robo-deberia-hint">--</small>
+      </div>
+      <div class="robo-kpi big alarm">
+        <span>Lo que has perdido SOLO este ano (en tu bolsillo)</span>
+        <strong id="robo-anual">--</strong>
+        <small>Por no actualizar tu salario al IPC.</small>
+      </div>
+      <div class="robo-kpi big alarm">
+        <span>Lo que llevas perdido acumulado desde entonces</span>
+        <strong id="robo-acum">--</strong>
+        <small id="robo-acum-hint">--</small>
+      </div>
+      <div class="robo-kpi">
+        <span>IRPF extra que pagas por progresividad en frio</span>
+        <strong id="robo-irpf-extra">--</strong>
+        <small>Si los tramos se hubieran deflactado, pagarias menos IRPF cobrando lo mismo.</small>
+      </div>
+      <div class="robo-kpi">
+        <span>Tu sueldo "real" hoy en euros del ano base</span>
+        <strong id="robo-real-base">--</strong>
+        <small id="robo-real-base-hint">--</small>
+      </div>
+      <div class="robo-kpi">
+        <span>Tipo efectivo total que pagas hoy</span>
+        <strong id="robo-tef">--</strong>
+        <small>Tipo efectivo entonces: <span id="robo-tef-base">--</span></small>
+      </div>
+    </div>
+
+    <div class="chart-wrap">
+      <svg id="chart-robo" class="chart-svg" viewBox="0 0 1100 500" preserveAspectRatio="xMidYMid meet"></svg>
+    </div>
+
+    <p class="robo-frase" id="robo-frase">--</p>
+  </section>
+
   <section class="card" id="grafico-principal">
     <h2>Tipo efectivo del IRPF entre 2012 y 2026 (en euros de 2026)</h2>
     <p>Cada linea es un ano. Mismo bruto en poder adquisitivo de 2026, pero con la normativa que tocaba ese ano. Si la <strong style="color:var(--naranja)">linea naranja (2026)</strong> esta por encima de las grises, te estan crujiendo mas hoy que entonces para el mismo sueldo real.</p>
